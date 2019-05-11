@@ -44,8 +44,8 @@ void draw_model(const wfol::Model& model, TGAImage &image)
             float x1 = (v1.x+1.)*width/2.;
             float y1 = (v1.y+1.)*height/2.;
 
-            geometry::Point p1 = {x0, y0};
-            geometry::Point p2 = {x1, y1};
+            geometry::Point2D p1 = {x0, y0};
+            geometry::Point2D p2 = {x1, y1};
             geometry::Line line = geometry::generate_line(p1, p2);
             draw_line(line, image, white);
         }
@@ -60,7 +60,7 @@ void draw_triangle(const geometry::Triangle& triangle, TGAImage& image)
     {
         for(int y = std::floor(bb.bottom); y <= std::ceil(bb.top); y++)
         {
-            geometry::Point candidate_point{static_cast<float>(x),static_cast<float>(y)};
+            geometry::Point2D candidate_point{static_cast<float>(x),static_cast<float>(y)};
             if(geometry::is_inside_triangle(candidate_point, triangle))
             {
                 image.set(x,y, color);
@@ -101,8 +101,8 @@ int main(int argc, char **argv)
         draw_triangle(triangle, image);
     }
 
-    geometry::Point p{10.0F, 5.0F};
-    geometry::Point p2{2.0F, 1.0F};
+    geometry::Point2D p{10.0F, 5.0F};
+    geometry::Point2D p2{2.0F, 1.0F};
 
     image.flip_vertically();
     image.write_tga_file("output.tga");

@@ -12,24 +12,24 @@ namespace geometry
         float y;
     };
 
-    struct Point
+    struct Point2D
     {
         float x;
         float y;
 
-        Vec2f operator-(Point other) const
+        Vec2f operator-(Point2D other) const
         {
             return Vec2f{x-other.x, y-other.y};
         }
     };
 
-    typedef std::vector<Point> Line;
+    typedef std::vector<Point2D> Line;
 
     struct Triangle
     {
-        Point p1;
-        Point p2;
-        Point p3;
+        Point2D p1;
+        Point2D p2;
+        Point2D p3;
     };
 
     struct BoundingBox
@@ -40,11 +40,11 @@ namespace geometry
         float bottom;
     };
 
-    Line generate_line(const Point &p1, const Point &p2);
+    Line generate_line(const Point2D &p1, const Point2D &p2);
 
     BoundingBox boundingbox(const Triangle& triangle);
 
-    bool is_inside_triangle(const Point& point, const Triangle& triangle);
+    bool is_inside_triangle(const Point2D& point, const Triangle& triangle);
 
 template <typename T>
 float dotproduct(const T& vec)

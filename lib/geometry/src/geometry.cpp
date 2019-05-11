@@ -13,19 +13,19 @@ namespace geometry
             return v1.x*v2.y - v2.x*v1.y;
         }
     }
-    Line generate_line(const Point &p1, const Point &p2)
+    Line generate_line(const Point2D &p1, const Point2D &p2)
     {
         const int numpoints = std::max(std::fabs(p1.x-p2.x), std::fabs(p1.y-p2.y)) + 1;
 
-        std::vector<Point> points(numpoints);
+        std::vector<Point2D> points(numpoints);
 
         float x_step = (p2.x - p1.x)/(numpoints);
         float y_step = (p2.y - p1.y)/(numpoints);
 
-        Point p = p1;
+        Point2D p = p1;
         for(int i = 0; i < numpoints; i++)
         {
-            Point result = {std::round(p.x), std::round(p.y)};
+            Point2D result = {std::round(p.x), std::round(p.y)};
             points.push_back(result);
             p.x += x_step;
             p.y += y_step;
@@ -35,12 +35,12 @@ namespace geometry
     BoundingBox boundingbox(const Triangle& triangle)
     {
         BoundingBox box;
-        std::vector<Point> corners{triangle.p1, triangle.p2, triangle.p3};
+        std::vector<Point2D> corners{triangle.p1, triangle.p2, triangle.p3};
 
         auto minmax_x = std::minmax({triangle.p1, triangle.p2, triangle.p3},
-                 [](Point p1, Point p2){return p1.x < p2.x;});
+                 [](Point2D p1, Point2D p2){return p1.x < p2.x;});
         auto minmax_y = std::minmax({triangle.p1, triangle.p2, triangle.p3},
-                        [](Point p1, Point p2){return p1.y < p2.y;});
+                        [](Point2D p1, Point2D p2){return p1.y < p2.y;});
 
         box.left = minmax_x.first.x;
         box.right = minmax_x.second.x;
@@ -54,7 +54,7 @@ namespace geometry
         return in >= 0.0 ? 1.0F : -1.0F;
     }
 
-    bool is_inside_triangle(const Point& point, const Triangle& triangle)
+    bool is_inside_triangle(const Point2D& point, const Triangle& triangle)
     {
         Vec2f p1p2 = triangle.p2 - triangle.p1;
         Vec2f p1point = point - triangle.p1;
