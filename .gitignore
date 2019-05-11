@@ -1,1 +1,3 @@
 *.tga
+.idea
+cmake-build*
