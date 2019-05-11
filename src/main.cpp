@@ -7,8 +7,15 @@
 #include <vector>
 #include <cmath>
 #include <string>
+#include <cstdlib>
 
-
+TGAColor random_color()
+{
+    auto r = rand() % 255;
+    auto g = rand() % 255;
+    auto b = rand() % 255;
+    return TGAColor(r, g, b, 255);
+}
 
 const TGAColor red = TGAColor(255, 0, 0, 255);
 const TGAColor white = TGAColor(255, 255, 255, 255);
@@ -47,9 +54,8 @@ void draw_model(const wfol::Model& model, TGAImage &image)
 
 void draw_triangle(const geometry::Triangle& triangle, TGAImage& image)
 {
-
     geometry::BoundingBox bb = geometry::boundingbox(triangle);
-
+    TGAColor color = random_color();
     for(int x = std::floor(bb.left); x < std::ceil(bb.right); x++)
     {
         for(int y = std::floor(bb.bottom); y <= std::ceil(bb.top); y++)
@@ -57,7 +63,7 @@ void draw_triangle(const geometry::Triangle& triangle, TGAImage& image)
             geometry::Point candidate_point{static_cast<float>(x),static_cast<float>(y)};
             if(geometry::is_inside_triangle(candidate_point, triangle))
             {
-                image.set(x,y, white);
+                image.set(x,y, color);
             }
         }
     }
@@ -97,7 +103,6 @@ int main(int argc, char **argv)
 
     geometry::Point p{10.0F, 5.0F};
     geometry::Point p2{2.0F, 1.0F};
-    std::cout << (p-p2).x << " " << (p-p2).y << "\n";
 
     image.flip_vertically();
     image.write_tga_file("output.tga");
