@@ -8,7 +8,7 @@ namespace geometry
 {
     namespace
     {
-        float z_component_cross_product(const Vec2f& v1, const Vec2f& v2)
+        float z_component_cross_product(const Vector2D& v1, const Vector2D& v2)
         {
             return v1.x*v2.y - v2.x*v1.y;
         }
@@ -56,17 +56,17 @@ namespace geometry
 
     bool is_inside_triangle(const Point2D& point, const Triangle& triangle)
     {
-        Vec2f p1p2 = triangle.p2 - triangle.p1;
-        Vec2f p1point = point - triangle.p1;
+        Vector2D p1p2 = triangle.p2 - triangle.p1;
+        Vector2D p1point = point - triangle.p1;
         float z1 = z_component_cross_product(p1p2, p1point);
 
 
-        Vec2f p2p3 = triangle.p3 - triangle.p2;
-        Vec2f p2point = point - triangle.p2;
+        Vector2D p2p3 = triangle.p3 - triangle.p2;
+        Vector2D p2point = point - triangle.p2;
         float z2 = z_component_cross_product(p2p3, p2point);
 
-        Vec2f p3p1 = triangle.p1 - triangle.p3;
-        Vec2f p3point = point - triangle.p3;
+        Vector2D p3p1 = triangle.p1 - triangle.p3;
+        Vector2D p3point = point - triangle.p3;
         float z3 = z_component_cross_product(p3p1, p3point);
 
         return (signum(z1) == signum(z2)) && (signum(z2) == signum(z3));

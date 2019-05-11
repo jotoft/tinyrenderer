@@ -6,13 +6,13 @@
 namespace geometry
 {
 
-    struct Vec2f
+    struct Vector2D
     {
         float x;
         float y;
     };
 
-    struct Vec3f
+    struct Vector3D
     {
         float x;
         float y;
@@ -24,9 +24,9 @@ namespace geometry
         float x;
         float y;
 
-        Vec2f operator-(Point2D other) const
+        Vector2D operator-(Point2D other) const
         {
-            return Vec2f{x-other.x, y-other.y};
+            return Vector2D{x-other.x, y-other.y};
         }
     };
 
@@ -35,9 +35,9 @@ namespace geometry
         float x;
         float y;
         float z;
-        Vec3f operator-(Point3D other) const
+        Vector3D operator-(Point3D other) const
         {
-            return Vec3f{x-other.x, y-other.y, z-other.z};
+            return Vector3D{x-other.x, y-other.y, z-other.z};
         }
     };
 
