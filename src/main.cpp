@@ -6,6 +6,7 @@
 
 #include <vector>
 #include <cmath>
+#include <string>
 
 
 
@@ -21,18 +22,16 @@ void draw_line(const geometry::Line& line, TGAImage &image, const TGAColor& colo
     }
 }
 
-int main(int argc, char **argv)
+void draw_model(const wfol::Model& model, TGAImage &image)
 {
-    const int width = 3000;
-    const int height = 2000;
-    TGAImage image(width, height, TGAImage::RGB);
-    wfol::Model african_head("data/models/african_head.obj");
+    const int width = image.get_width();
+    const int height = image.get_height();
 
-    for (int i=0; i<african_head.nfaces(); i++) {
-        std::vector<int> face = african_head.face(i);
+    for (int i=0; i<model.nfaces(); i++) {
+        std::vector<int> face = model.face(i);
         for (int j=0; j<3; j++) {
-            wfol::Vec3f v0 = african_head.vert(face[j]);
-            wfol::Vec3f v1 = african_head.vert(face[(j+1)%3]);
+            wfol::Vec3f v0 = model.vert(face[j]);
+            wfol::Vec3f v1 = model.vert(face[(j+1)%3]);
             float x0 = (v0.x+1.)*width/2.;
             float y0 = (v0.y+1.)*height/2.;
             float x1 = (v1.x+1.)*width/2.;
@@ -44,14 +43,52 @@ int main(int argc, char **argv)
             draw_line(line, image, white);
         }
     }
-    /*
-    auto line = geometry::generate_line({10.0F, 49.0F}, {30.0F, 40.0F});
+}
 
-    auto line2 = geometry::generate_line({10.0F, 10.0F}, {10.0F, 40.0F});
-    draw_line(line, image);
-    draw_line(line2, image);
-     */
+void draw_triangle(const geometry::Triangle& triangle, TGAImage& image)
+{
+    std::vector<geometry::Line> lines(3);
+    lines.push_back(geometry::generate_line(triangle.p1, triangle.p2));
+    lines.push_back(geometry::generate_line(triangle.p2, triangle.p3));
+    lines.push_back(geometry::generate_line(triangle.p3, triangle.p1));
 
+    for(auto& line : lines)
+    {
+        draw_line(line, image, white);
+    }
+}
+
+void lesson1(TGAImage &output)
+{
+    wfol::Model african_head("data/models/african_head.obj");
+    draw_model(african_head, output);
+}
+
+int main(int argc, char **argv)
+{
+    const int width = 2000;
+    const int height = 2000;
+    TGAImage image(width, height, TGAImage::RGB);
+
+    //lesson1(image);
+
+    geometry::Triangle t1 = {{10.0F, 70.0F},
+                             {50.0F, 160.0F},
+                             {70.0F, 80.0F}};
+
+
+    geometry::Triangle t2 = {{ 180.0F, 50.0F},
+                             {150.0F, 1.0F},
+                             {70.0F, 180.0F}};
+
+    geometry::Triangle t3 = {{180.0F, 150.0F}, {120.0F, 160.0F}, {130.0F, 180.0F}};
+
+    std::vector<geometry::Triangle> triangles{t1,t2,t3};
+
+    for(auto& triangle : triangles)
+    {
+        draw_triangle(triangle, image);
+    }
 
 
     image.flip_vertically();

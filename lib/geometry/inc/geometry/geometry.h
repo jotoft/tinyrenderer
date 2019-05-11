@@ -13,6 +13,13 @@ namespace geometry
     };
     typedef std::vector<Point> Line;
 
+    struct Triangle
+    {
+        Point p1;
+        Point p2;
+        Point p3;
+    };
+
     Line generate_line(const Point &p1, const Point &p2);
 }
 
