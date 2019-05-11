@@ -71,4 +71,14 @@ namespace geometry
 
         return (signum(z1) == signum(z2)) && (signum(z2) == signum(z3));
     }
+
+    std::ostream &operator<<(std::ostream &stream, const Point3D point) {
+        stream << point.x << " " << point.y << " " << point.z;
+        return stream;
+    }
+
+    std::ostream &operator<<(std::ostream &stream, const Point2D point) {
+        stream << point.x << " " << point.y;
+        return stream;
+    }
 }

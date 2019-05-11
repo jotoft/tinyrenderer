@@ -1,23 +1,25 @@
-#ifndef __MODEL_H__
-#define __MODEL_H__
-
+#pragma once
+#include <string>
 #include <vector>
-#include <wavefrontobjloader/geometry.h>
+
+#include <geometry/geometry.h>
+
 namespace wfol
 {
 
-class Model {
-private:
-	std::vector<Vec3f> verts_;
-	std::vector<std::vector<int> > faces_;
-public:
-	Model(const char *filename);
-	~Model();
-	int nverts() const;
-	int nfaces() const;
-	Vec3f vert(int i) const;
-	std::vector<int> face(int idx) const;
-};
+    struct Face
+    {
 
+    };
+
+    class Model
+    {
+    public:
+        Model(const std::string& filename);
+        ~Model();
+    private:
+        std::vector<geometry::Point3D> m_vertices;
+        std::vector<geometry::Point2D> m_texture_coords;
+        std::vector<geometry::Vector3D> m_normal_vectors;
+    };
 }
-#endif //__MODEL_H__

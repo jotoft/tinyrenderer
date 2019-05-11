@@ -33,7 +33,7 @@ void draw_model(const wfol::Model& model, TGAImage &image)
 {
     const int width = image.get_width();
     const int height = image.get_height();
-
+    /*
     for (int i=0; i<model.nfaces(); i++) {
         std::vector<int> face = model.face(i);
         for (int j=0; j<3; j++) {
@@ -50,6 +50,7 @@ void draw_model(const wfol::Model& model, TGAImage &image)
             draw_line(line, image, white);
         }
     }
+     */
 }
 
 void draw_triangle(const geometry::Triangle& triangle, TGAImage& image)
@@ -103,6 +104,8 @@ int main(int argc, char **argv)
 
     geometry::Point2D p{10.0F, 5.0F};
     geometry::Point2D p2{2.0F, 1.0F};
+
+    wfol::Model african_head("data/models/african_head.obj");
 
     image.flip_vertically();
     image.write_tga_file("output.tga");

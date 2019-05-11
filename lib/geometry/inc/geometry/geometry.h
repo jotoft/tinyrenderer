@@ -2,7 +2,7 @@
 #define TINYRENDERER_GEOMETRY_H
 
 #include <vector>
-
+#include <ostream>
 namespace geometry
 {
 
@@ -63,6 +63,9 @@ namespace geometry
     BoundingBox bounding_box(const Triangle &triangle);
 
     bool is_inside_triangle(const Point2D& point, const Triangle& triangle);
+
+    std::ostream& operator<< (std::ostream& stream, const Point3D);
+    std::ostream& operator<< (std::ostream& stream, const Point2D);
 
 template <typename T>
 float dotproduct(const T& vec)
