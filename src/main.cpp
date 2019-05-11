@@ -47,14 +47,19 @@ void draw_model(const wfol::Model& model, TGAImage &image)
 
 void draw_triangle(const geometry::Triangle& triangle, TGAImage& image)
 {
-    std::vector<geometry::Line> lines(3);
-    lines.push_back(geometry::generate_line(triangle.p1, triangle.p2));
-    lines.push_back(geometry::generate_line(triangle.p2, triangle.p3));
-    lines.push_back(geometry::generate_line(triangle.p3, triangle.p1));
 
-    for(auto& line : lines)
+    geometry::BoundingBox bb = geometry::boundingbox(triangle);
+
+    for(int x = std::floor(bb.left); x < std::ceil(bb.right); x++)
     {
-        draw_line(line, image, white);
+        for(int y = std::floor(bb.bottom); y <= std::ceil(bb.top); y++)
+        {
+            geometry::Point candidate_point{static_cast<float>(x),static_cast<float>(y)};
+            if(geometry::is_inside_triangle(candidate_point, triangle))
+            {
+                image.set(x,y, white);
+            }
+        }
     }
 }
 
@@ -90,6 +95,9 @@ int main(int argc, char **argv)
         draw_triangle(triangle, image);
     }
 
+    geometry::Point p{10.0F, 5.0F};
+    geometry::Point p2{2.0F, 1.0F};
+    std::cout << (p-p2).x << " " << (p-p2).y << "\n";
 
     image.flip_vertically();
     image.write_tga_file("output.tga");
