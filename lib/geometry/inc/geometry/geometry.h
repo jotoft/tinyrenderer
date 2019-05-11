@@ -60,7 +60,7 @@ namespace geometry
 
     Line generate_line(const Point2D &p1, const Point2D &p2);
 
-    BoundingBox boundingbox(const Triangle& triangle);
+    BoundingBox bounding_box(const Triangle &triangle);
 
     bool is_inside_triangle(const Point2D& point, const Triangle& triangle);
 

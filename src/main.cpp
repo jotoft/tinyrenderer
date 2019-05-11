@@ -54,7 +54,7 @@ void draw_model(const wfol::Model& model, TGAImage &image)
 
 void draw_triangle(const geometry::Triangle& triangle, TGAImage& image)
 {
-    geometry::BoundingBox bb = geometry::boundingbox(triangle);
+    geometry::BoundingBox bb = geometry::bounding_box(triangle);
     TGAColor color = random_color();
     for(int x = std::floor(bb.left); x < std::ceil(bb.right); x++)
     {

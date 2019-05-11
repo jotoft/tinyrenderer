@@ -32,7 +32,7 @@ namespace geometry
         }
         return points;
     }
-    BoundingBox boundingbox(const Triangle& triangle)
+    BoundingBox bounding_box(const Triangle &triangle)
     {
         BoundingBox box;
         std::vector<Point2D> corners{triangle.p1, triangle.p2, triangle.p3};
