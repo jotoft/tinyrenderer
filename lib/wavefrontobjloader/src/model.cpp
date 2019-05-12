@@ -76,6 +76,10 @@ std::vector<geometry::Triangle> wfol::Model::getFaceTriangles() const {
         return Point3D {tex.x, tex.y};
     };
 
+    auto norm_to_point = [this](const FaceVertexIndices& v) -> Vector3D{
+        auto norm = m_normal_vectors[v.normal];
+        return norm;
+    };
 
     for(auto& face : m_faces)
     {
@@ -87,6 +91,10 @@ std::vector<geometry::Triangle> wfol::Model::getFaceTriangles() const {
         t.texp1 = tex_to_point(face.v1);
         t.texp2 = tex_to_point(face.v2);
         t.texp3 = tex_to_point(face.v3);
+
+        t.normp1 = norm_to_point(face.v1);
+        t.normp2 = norm_to_point(face.v2);
+        t.normp3 = norm_to_point(face.v3);
         triangles.push_back(t);
     }
     /*

@@ -88,6 +88,10 @@ namespace geometry
         Point2D texp2;
         Point2D texp3;
 
+        Vector3D normp1;
+        Vector3D normp2;
+        Vector3D normp3;
+
         Vector3D normal() const
         {
             auto p1p2 = p2-p1;

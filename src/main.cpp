@@ -8,6 +8,7 @@
 #include <cmath>
 #include <string>
 #include <cstdlib>
+#include <climits>
 
 TGAColor random_color()
 {
@@ -60,7 +61,13 @@ void draw_triangle(const geometry::Triangle& triangle, TGAImage& image, std::vec
             auto bc_coords = geometry::barycentric(triangle_scaled, candidate_point);
             if(geometry::is_inside_triangle_barycentric(bc_coords))
             {
-                auto normal_vec = triangle.normal();
+
+                auto norm_x = triangle.normp1.x*bc_coords.x + triangle.normp2.x*bc_coords.y + triangle.normp3.x*bc_coords.z;
+                auto norm_y = triangle.normp1.y*bc_coords.x + triangle.normp2.y*bc_coords.y + triangle.normp3.y*bc_coords.z;
+                auto norm_z = triangle.normp1.z*bc_coords.x + triangle.normp2.z*bc_coords.y + triangle.normp3.z*bc_coords.z;
+
+                geometry::Vector3D normal_vec{norm_x, norm_y, norm_z};
+
                 float brightness = normal_vec.dot(light_direction);
                 if(brightness > 0.0F) {
                     auto interpolated_z = triangle_scaled.p1.z*bc_coords.x +
@@ -72,6 +79,9 @@ void draw_triangle(const geometry::Triangle& triangle, TGAImage& image, std::vec
                     interpolated_u = interpolated_u;
                     interpolated_v = 1.0F-interpolated_v;
                     auto z_buffer_index = width*y+x;
+
+
+
                     if(interpolated_z >= z_buffer[z_buffer_index])
                     {
                         z_buffer[z_buffer_index] = interpolated_z;
