@@ -3,6 +3,7 @@
 #include <iostream>
 #include <sstream>
 #include <cstdio>
+#include <algorithm>
 
 using geometry::Point3D;
 using geometry::Point2D;
@@ -79,5 +80,10 @@ std::vector<geometry::Triangle> wfol::Model::getFaceTriangles() const {
         t.p3 = vertex_to_point(face.v3);
         triangles.push_back(t);
     }
+
+    std::sort(triangles.begin(), triangles.end(), [](const geometry::Triangle& t1, const geometry::Triangle& t2){
+        return (t1.p1.z + t1.p2.z + t1.p3.z) < (t2.p1.z + t2.p2.z + t2.p3.z);
+    });
+
     return triangles;
 }

@@ -28,6 +28,19 @@ namespace geometry
             y /= length;
             z /= length;
         }
+
+        float dot(const Vector3D& v) const
+        {
+            return x*v.x + y*v.y + z*v.z;
+        }
+
+        Vector3D cross(const Vector3D& v) const
+        {
+            float x_cross = y*v.z - z*v.y;
+            float y_cross = z*v.x - x*v.z;
+            float z_cross = x*v.y - y*v.x;
+            return Vector3D{x_cross, y_cross, z_cross};
+        }
     };
 
     struct Point2D
@@ -70,6 +83,15 @@ namespace geometry
         Point3D p1;
         Point3D p2;
         Point3D p3;
+
+        Vector3D normal() const
+        {
+            auto p1p2 = p2-p1;
+            auto p1p3 = p3-p1;
+            auto cross = p1p2.cross(p1p3);
+            cross.normalize();
+            return cross;
+        }
     };
 
     struct BoundingBox
@@ -85,6 +107,21 @@ namespace geometry
     BoundingBox bounding_box(const Triangle &triangle);
 
     bool is_inside_triangle(const Point2D& point, const Triangle& triangle);
+    bool is_inside_triangle_barycentric(const Point2D& p, const Triangle& triangle);
+
+    inline Point3D barycentric(const Triangle& triangle, const Point2D& p)
+    {
+        auto p1p2 = triangle.p2 - triangle.p1;
+        auto p1p3 = triangle.p3 - triangle.p1;
+        Point2D p1p {triangle.p1.x-p.x, triangle.p1.y - p.y};
+        Vector3D x_comp {p1p2.x, p1p3.x, p1p.x};
+        Vector3D y_comp {p1p2.y, p1p3.y, p1p.y};
+
+        Vector3D cross = x_comp.cross(y_comp);
+        Point3D barycentric_coord{cross.x/cross.z, cross.y/cross.z, cross.z/cross.z};
+        barycentric_coord.z = 1.0F - barycentric_coord.x - barycentric_coord.y;
+        return barycentric_coord;
+    }
 
     std::ostream& operator<< (std::ostream& stream, const Point3D);
     std::ostream& operator<< (std::ostream& stream, const Point2D);

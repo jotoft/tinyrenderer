@@ -47,6 +47,9 @@ void draw_triangle(const geometry::Triangle& triangle, TGAImage& image)
     scale_to_image(triangle_scaled.p2);
     scale_to_image(triangle_scaled.p3);
 
+    const geometry::Vector3D light_direction{0.0F, 0.0F, 1.0F};
+
+
     geometry::BoundingBox bb = geometry::bounding_box(triangle_scaled);
     TGAColor color = random_color();
     for(int x = std::floor(bb.left); x < std::ceil(bb.right); x++)
@@ -54,9 +57,14 @@ void draw_triangle(const geometry::Triangle& triangle, TGAImage& image)
         for(int y = std::floor(bb.bottom); y <= std::ceil(bb.top); y++)
         {
             geometry::Point2D candidate_point{static_cast<float>(x),static_cast<float>(y)};
-            if(geometry::is_inside_triangle(candidate_point, triangle_scaled))
+            if(geometry::is_inside_triangle_barycentric(candidate_point, triangle_scaled))
             {
-                image.set(x,y, color);
+                auto normal_vec = triangle.normal();
+                float brightness = normal_vec.dot(light_direction);
+                if(brightness > 0.0F) {
+                    TGAColor c(255 * brightness, 255 * brightness, 255 * brightness, 255);
+                    image.set(x, y, c);
+                }
             }
         }
     }
