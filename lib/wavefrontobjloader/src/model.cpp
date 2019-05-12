@@ -66,9 +66,9 @@ wfol::Model::~Model() {
 std::vector<geometry::Triangle> wfol::Model::getFaceTriangles() const {
     std::vector<geometry::Triangle> triangles(m_faces.size());
 
-    auto vertex_to_point = [this](const FaceVertexIndices& v) -> Point2D{
+    auto vertex_to_point = [this](const FaceVertexIndices& v) -> Point3D{
         auto vertex = m_vertices[v.vertex];
-        return Point2D {vertex.x, vertex.y};
+        return Point3D {vertex.x, vertex.y, vertex.z};
     };
 
     for(auto& face : m_faces)

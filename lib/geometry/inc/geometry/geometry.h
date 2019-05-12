@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <ostream>
+#include <cmath>
 namespace geometry
 {
 
@@ -17,6 +18,16 @@ namespace geometry
         float x;
         float y;
         float z;
+        operator Vector2D() const {
+            return Vector2D{x,y};
+        }
+        void normalize()
+        {
+            float length = sqrtf(x*x + y*y + z*z);
+            x /= length;
+            y /= length;
+            z /= length;
+        }
     };
 
     struct Point2D
@@ -45,15 +56,20 @@ namespace geometry
         {
             return Vector3D{x-other.x, y-other.y, z-other.z};
         }
+
+        operator Point2D() const
+        {
+            return Point2D{x,y};
+        }
     };
 
     typedef std::vector<Point2D> Line;
 
     struct Triangle
     {
-        Point2D p1;
-        Point2D p2;
-        Point2D p3;
+        Point3D p1;
+        Point3D p2;
+        Point3D p3;
     };
 
     struct BoundingBox

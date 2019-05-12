@@ -58,7 +58,7 @@ void draw_triangle(const geometry::Triangle& triangle, TGAImage& image)
     const int width = image.get_width();
     const int height = image.get_height();
 
-    auto scale_to_image = [width, height](geometry::Point2D &p)
+    auto scale_to_image = [width, height](geometry::Point3D &p)
     {
         p.x += 1.0F;
         p.y += 1.0F;
@@ -125,8 +125,6 @@ int main(int argc, char **argv)
 
     geometry::Point2D p{10.0F, 5.0F};
     geometry::Point2D p2{2.0F, 1.0F};
-
-
 
     image.flip_vertically();
     image.write_tga_file("output.tga");

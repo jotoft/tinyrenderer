@@ -8,7 +8,8 @@ namespace geometry
 {
     namespace
     {
-        float z_component_cross_product(const Vector2D& v1, const Vector2D& v2)
+        template<typename T>
+        float z_component_cross_product(const T& v1, const T& v2)
         {
             return v1.x*v2.y - v2.x*v1.y;
         }
@@ -56,6 +57,7 @@ namespace geometry
 
     bool is_inside_triangle(const Point2D& point, const Triangle& triangle)
     {
+
         Vector2D p1p2 = triangle.p2 - triangle.p1;
         Vector2D p1point = point - triangle.p1;
         float z1 = z_component_cross_product(p1p2, p1point);
