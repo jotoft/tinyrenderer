@@ -84,8 +84,7 @@ namespace geometry
         return stream;
     }
 
-    bool is_inside_triangle_barycentric(const Point2D &p, const Triangle &triangle) {
-        auto barycentric_coords = barycentric(triangle, p);
+    bool is_inside_triangle_barycentric(const Point3D &barycentric_coords) {
         return (barycentric_coords.x >=0.0F) && (barycentric_coords.y >= 0.0F) && (barycentric_coords.z >= 0.0F);
     }
 }
