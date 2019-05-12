@@ -28,6 +28,12 @@ namespace geometry
         {
             return Vector2D{x-other.x, y-other.y};
         }
+
+        void operator*=(float scale)
+        {
+            x*=scale;
+            y*=scale;
+        }
     };
 
     struct Point3D

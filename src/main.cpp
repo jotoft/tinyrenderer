@@ -55,14 +55,31 @@ void draw_model(const wfol::Model& model, TGAImage &image)
 
 void draw_triangle(const geometry::Triangle& triangle, TGAImage& image)
 {
-    geometry::BoundingBox bb = geometry::bounding_box(triangle);
+    const int width = image.get_width();
+    const int height = image.get_height();
+
+    auto scale_to_image = [width, height](geometry::Point2D &p)
+    {
+        p.x += 1.0F;
+        p.y += 1.0F;
+        p.x *= width/2.0F;
+        p.y *= height/2.0F;
+    };
+
+    geometry::Triangle triangle_scaled = triangle;
+
+    scale_to_image(triangle_scaled.p1);
+    scale_to_image(triangle_scaled.p2);
+    scale_to_image(triangle_scaled.p3);
+
+    geometry::BoundingBox bb = geometry::bounding_box(triangle_scaled);
     TGAColor color = random_color();
     for(int x = std::floor(bb.left); x < std::ceil(bb.right); x++)
     {
         for(int y = std::floor(bb.bottom); y <= std::ceil(bb.top); y++)
         {
             geometry::Point2D candidate_point{static_cast<float>(x),static_cast<float>(y)};
-            if(geometry::is_inside_triangle(candidate_point, triangle))
+            if(geometry::is_inside_triangle(candidate_point, triangle_scaled))
             {
                 image.set(x,y, color);
             }
@@ -78,12 +95,13 @@ void lesson1(TGAImage &output)
 
 int main(int argc, char **argv)
 {
-    const int width = 2000;
-    const int height = 2000;
+    const int width = 1000;
+    const int height = 1000;
     TGAImage image(width, height, TGAImage::RGB);
 
     //lesson1(image);
 
+    /*
     geometry::Triangle t1 = {{10.0F, 70.0F},
                              {50.0F, 160.0F},
                              {70.0F, 80.0F}};
@@ -96,7 +114,10 @@ int main(int argc, char **argv)
     geometry::Triangle t3 = {{180.0F, 150.0F}, {120.0F, 160.0F}, {130.0F, 180.0F}};
 
     std::vector<geometry::Triangle> triangles{t1,t2,t3};
+     */
+    wfol::Model african_head("data/models/african_head.obj");
 
+    auto triangles = african_head.getFaceTriangles();
     for(auto& triangle : triangles)
     {
         draw_triangle(triangle, image);
@@ -105,7 +126,7 @@ int main(int argc, char **argv)
     geometry::Point2D p{10.0F, 5.0F};
     geometry::Point2D p2{2.0F, 1.0F};
 
-    wfol::Model african_head("data/models/african_head.obj");
+
 
     image.flip_vertically();
     image.write_tga_file("output.tga");

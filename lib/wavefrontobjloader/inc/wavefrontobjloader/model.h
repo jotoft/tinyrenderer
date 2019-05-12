@@ -13,8 +13,10 @@ namespace wfol
     public:
         Model(const std::string& filename);
         ~Model();
+
+        std::vector<geometry::Triangle> getFaceTriangles() const;
     private:
-        struct FaceVertex
+        struct FaceVertexIndices
         {
             int32_t vertex;
             int32_t tex;
@@ -23,7 +25,7 @@ namespace wfol
 
         struct Face
         {
-            FaceVertex v1, v2, v3;
+            FaceVertexIndices v1, v2, v3;
         };
         std::vector<geometry::Point3D> m_vertices;
         std::vector<geometry::Point2D> m_texture_coords;

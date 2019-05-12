@@ -37,9 +37,13 @@ wfol::Model::Model(const std::string& filename)
         else if (token == "f")
         {
             Face face;
-            auto read_vertex_indices = [&s](FaceVertex &v){
+            auto read_vertex_indices = [&s](FaceVertexIndices &v){
                 char skip;
                 s >> v.vertex >> skip >> v.tex >> skip >> v.normal;
+                // Adjust indices, they are 1 based in the wavefront-file
+                v.vertex -= 1U;
+                v.tex -= 1U;
+                v.normal -= 1U;
             };
 
             read_vertex_indices(face.v1);
@@ -57,4 +61,23 @@ wfol::Model::Model(const std::string& filename)
 
 wfol::Model::~Model() {
 
+}
+
+std::vector<geometry::Triangle> wfol::Model::getFaceTriangles() const {
+    std::vector<geometry::Triangle> triangles(m_faces.size());
+
+    auto vertex_to_point = [this](const FaceVertexIndices& v) -> Point2D{
+        auto vertex = m_vertices[v.vertex];
+        return Point2D {vertex.x, vertex.y};
+    };
+
+    for(auto& face : m_faces)
+    {
+        geometry::Triangle t;
+        t.p1 = vertex_to_point(face.v1);
+        t.p2 = vertex_to_point(face.v2);
+        t.p3 = vertex_to_point(face.v3);
+        triangles.push_back(t);
+    }
+    return triangles;
 }
