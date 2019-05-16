@@ -2,6 +2,8 @@ project(tinyrenderer)
 
 set(CMAKE_CXX_STANDARD 14)
 
+add_subdirectory(external/googletest)
+
 add_subdirectory(lib/tgaimage)
 add_subdirectory(lib/geometry)
 add_subdirectory(lib/wavefrontobjloader)
