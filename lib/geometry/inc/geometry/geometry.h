@@ -110,6 +110,32 @@ namespace geometry
         float bottom;
     };
 
+    struct BarycentricCoordinateSystem
+    {
+        float x;
+        float y;
+        float z;
+
+        float interpolate(float v1, float v2, float v3)
+        {
+          return v1*x + v2*y + v3*z;
+        }
+
+        Vector3D interpolate(const Point3D& p1,const Point3D& p2,const Point3D& p3)
+        {
+          return Vector3D{ interpolate(p1.x, p2.x, p3.x),
+                           interpolate(p1.y, p2.y, p3.y),
+                           interpolate(p1.z, p2.z, p3.z)};
+        }
+
+        Vector2D interpolate(const Point2D& p1, const Point2D& p2,const Point2D& p3)
+        {
+          return Vector2D{ interpolate(p1.x, p2.x, p3.x),
+                           interpolate(p1.y, p2.y, p3.y)};
+        }
+    };
+
+
     Line generate_line(const Point2D &p1, const Point2D &p2);
 
     BoundingBox bounding_box(const Triangle &triangle);
